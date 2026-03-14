@@ -3,215 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeDrive - Giriş Sistemi</title>
+    <title>AvtoPatrul | Milli Sürücü Portalı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #64748b;
-            --bg: #f8fafc;
+            --brand-red: #e62117;
+            --bg-color: #f2f4f7;
             --white: #ffffff;
-            --danger: #ef4444;
+            --text-color: #333333;
+            --gray-text: #777777;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            font-family: 'Ubuntu', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
 
-        /* Qeydiyyat Modalı */
-        .auth-card {
+        /* --- HEADER --- */
+        header {
             background: var(--white);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .auth-card h2 {
-            margin-top: 0;
-            color: var(--primary);
-            text-align: center;
-            font-size: 1.8rem;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            box-sizing: border-box;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .form-group input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .row {
+            padding: 10px 8%;
             display: flex;
-            gap: 10px;
-        }
-
-        .btn-auth {
-            width: 100%;
-            padding: 14px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-auth:hover {
-            background: #1d4ed8;
-        }
-
-        .switch-mode {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--secondary);
-        }
-
-        .switch-mode span {
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* Profil İkonu (Sağ üst üçün) */
-        .profile-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--white);
-            padding: 10px 20px;
-            border-radius: 50px;
-            box-shadow: var(--shadow);
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            border: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .avatar {
-            width: 35px;
-            height: 35px;
-            background: var(--primary);
-            color: white;
+        .logo { font-size: 24px; font-weight: 700; color: var(--brand-red); text-decoration: none; }
+        .logo span { color: #000; }
+
+        nav { display: flex; gap: 20px; }
+        nav a { text-decoration: none; color: #555; font-weight: 500; font-size: 15px; transition: 0.3s; }
+        nav a:hover { color: var(--brand-red); }
+
+        .header-tools { display: flex; align-items: center; gap: 15px; }
+        .search-bar { background: #eee; border: none; padding: 8px 15px; border-radius: 5px; outline: none; }
+
+        /* Gecə/Gündüz Keçidi (Switch) */
+        .theme-switch {
+            width: 40px; height: 20px;
+            background: #ccc;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        .theme-switch::before {
+            content: '';
+            position: absolute;
+            width: 16px; height: 16px;
+            background: white;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            top: 2px; left: 2px;
+            transition: 0.3s;
         }
+
+        /* --- STATİSTİKA (YANACAQ VƏ QİYMƏTLƏR) --- */
+        .top-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px 8%;
+        }
+
+        .stat-box {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+
+        .stat-box .title { font-size: 12px; color: var(--gray-text); font-weight: bold; }
+        .stat-box .price { font-size: 18px; font-weight: 700; margin: 5px 0; }
+        .stat-box .trend { font-size: 12px; font-weight: bold; }
+        .up { color: #d00; }
+        .down { color: #0a0; }
+
+        /* --- CANLI YAYIM VƏ ƏSAS KATEGORİYALAR --- */
+        .main-section {
+            padding: 0 8% 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .category-btn {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-color);
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        .category-btn:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--brand-red);
+            transform: translateY(-5px);
+        }
+
+        .category-btn .icon { font-size: 30px; display: block; margin-bottom: 10px; }
+        .category-btn h3 { margin: 0; font-size: 16px; }
+
+        /* CANLI NİŞANI */
+        .live-tag {
+            background: var(--brand-red);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 5px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.4;} 100% {opacity: 1;} }
+
     </style>
 </head>
 <body>
 
-    <div class="auth-card" id="auth-container">
-        <h2 id="form-title">Qeydiyyat</h2>
-        
-        <form id="auth-form">
-            <div id="register-fields">
-                <div class="row">
-                    <div class="form-group">
-                        <label>Ad</label>
-                        <input type="text" id="user-name" placeholder="Aslan">
-                    </div>
-                    <div class="form-group">
-                        <label>Soyad</label>
-                        <input type="text" id="user-surname" placeholder="Dövlətzadə">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>FİN Kod (Şəxsiyyət vəsiqəsi)</label>
-                    <input type="text" id="user-fin" maxlength="7" placeholder="7 simvollu kod">
-                </div>
-
-                <div class="row">
-                    <div class="form-group" style="flex: 2;">
-                        <label>Yaş</label>
-                        <input type="number" id="user-age">
-                    </div>
-                    <div class="form-group" style="flex: 3;">
-                        <label>Cinsiyyət</label>
-                        <select id="user-gender">
-                            <option value="Kişi">Kişi</option>
-                            <option value="Qadın">Qadın</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Gmail Ünvanı</label>
-                <input type="email" id="user-email" placeholder="nümunə@gmail.com">
-            </div>
-
-            <div class="form-group">
-                <label>Şifrə</label>
-                <input type="password" id="user-pass" placeholder="••••••••">
-            </div>
-
-            <button type="submit" class="btn-auth" id="main-btn">Hesab Yarat</button>
-        </form>
-
-        <div class="switch-mode">
-            <p id="toggle-text">Artıq hesabınız var? <span onclick="toggleMode()">Daxil olun</span></p>
-        </div>
+<header>
+    <a href="#" class="logo">AVTO<span>PATRUL</span></a>
+    <nav>
+        <a href="index.html">Ana Səhifə</a>
+        <a href="fayda.html">Avtofayda</a>
+        <a href="baz.html">AvtoBaz</a>
+        <a href="qanun.html">Avtoqanun</a>
+        <a href="kalkulyator.html">Avtokalkulyator</a>
+        <a href="canli.html" style="color: var(--brand-red);">Canlı <span class="live-tag">CANLI</span></a>
+    </nav>
+    <div class="header-tools">
+        <input type="text" class="search-bar" placeholder="Axtarış...">
+        <div class="theme-switch" onclick="this.classList.toggle('active')"></div>
+        <a href="profil.html" style="font-weight: bold; color: #333; text-decoration: none;">PROFİL</a>
     </div>
+</header>
 
-    <script>
-        let isLogin = false;
+<div class="top-stats">
+    <div class="stat-box">
+        <span class="title">Aİ-92 BENZİN</span>
+        <span class="price">1.00 AZN</span>
+        <span class="trend">Stabil</span>
+    </div>
+    <div class="stat-box">
+        <span class="title">DİZEL</span>
+        <span class="price">0.80 AZN</span>
+        <span class="trend up">▲ 2.5%</span>
+    </div>
+    <div class="stat-box">
+        <span class="title">YENİ MİNİK (QEYDİ)</span>
+        <span class="price">4.2K</span>
+        <span class="trend up">▲ 12.4%</span>
+    </div>
+    <div class="stat-box">
+        <span class="title">YÜK MAŞINI (ORTALAMA)</span>
+        <span class="price">52.000 AZN</span>
+        <span class="trend down">▼ 4.1%</span>
+    </div>
+</div>
 
-        function toggleMode() {
-            isLogin = !isLogin;
-            const title = document.getElementById('form-title');
-            const regFields = document.getElementById('register-fields');
-            const mainBtn = document.getElementById('main-btn');
-            const toggleText = document.getElementById('toggle-text');
-
-            if (isLogin) {
-                title.innerText = "Daxil Ol";
-                regFields.style.display = "none";
-                mainBtn.innerText = "Giriş Et";
-                toggleText.innerHTML = 'Hesabınız yoxdur? <span onclick="toggleMode()">Qeydiyyatdan keçin</span>';
-            } else {
-                title.innerText = "Qeydiyyat";
-                regFields.style.display = "block";
-                mainBtn.innerText = "Hesab Yarat";
-                toggleText.innerHTML = 'Artıq hesabınız var? <span onclick="toggleMode()">Daxil olun</span>';
-            }
-        }
-    </script>
+<div class="main-section">
+    <a href="map.html" class="category-btn">
+        <span class="icon">🗺️</span>
+        <h3>Marşrut və Xəritə</h3>
+    </a>
+    <a href="ai-izleme.html" class="category-btn">
+        <span class="icon">👁️</span>
+        <h3>AI Sürücü İzləmə</h3>
+    </a>
+    <a href="qanun.html" class="category-btn">
+        <span class="icon">📕</span>
+        <h3>Yol Qanunları</h3>
+    </a>
+    <a href="kalkulyator.html" class="category-btn">
+        <span class="icon">📈</span>
+        <h3>Avto Kalkulyator</h3>
+    </a>
+</div>
 
 </body>
 </html>
