@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeDrive - Giriş Sistemi</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Qeydiyyat Modalı */
+        .auth-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .auth-card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-auth:hover {
+            background: #1d4ed8;
+        }
+
+        .switch-mode {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+
+        .switch-mode span {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Profil İkonu (Sağ üst üçün) */
+        .profile-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card" id="auth-container">
+        <h2 id="form-title">Qeydiyyat</h2>
+        
+        <form id="auth-form">
+            <div id="register-fields">
+                <div class="row">
+                    <div class="form-group">
+                        <label>Ad</label>
+                        <input type="text" id="user-name" placeholder="Aslan">
+                    </div>
+                    <div class="form-group">
+                        <label>Soyad</label>
+                        <input type="text" id="user-surname" placeholder="Dövlətzadə">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>FİN Kod (Şəxsiyyət vəsiqəsi)</label>
+                    <input type="text" id="user-fin" maxlength="7" placeholder="7 simvollu kod">
+                </div>
+
+                <div class="row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Yaş</label>
+                        <input type="number" id="user-age">
+                    </div>
+                    <div class="form-group" style="flex: 3;">
+                        <label>Cinsiyyət</label>
+                        <select id="user-gender">
+                            <option value="Kişi">Kişi</option>
+                            <option value="Qadın">Qadın</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Gmail Ünvanı</label>
+                <input type="email" id="user-email" placeholder="nümunə@gmail.com">
+            </div>
+
+            <div class="form-group">
+                <label>Şifrə</label>
+                <input type="password" id="user-pass" placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn-auth" id="main-btn">Hesab Yarat</button>
+        </form>
+
+        <div class="switch-mode">
+            <p id="toggle-text">Artıq hesabınız var? <span onclick="toggleMode()">Daxil olun</span></p>
+        </div>
+    </div>
+
+    <script>
+        let isLogin = false;
+
+        function toggleMode() {
+            isLogin = !isLogin;
+            const title = document.getElementById('form-title');
+            const regFields = document.getElementById('register-fields');
+            const mainBtn = document.getElementById('main-btn');
+            const toggleText = document.getElementById('toggle-text');
+
+            if (isLogin) {
+                title.innerText = "Daxil Ol";
+                regFields.style.display = "none";
+                mainBtn.innerText = "Giriş Et";
+                toggleText.innerHTML = 'Hesabınız yoxdur? <span onclick="toggleMode()">Qeydiyyatdan keçin</span>';
+            } else {
+                title.innerText = "Qeydiyyat";
+                regFields.style.display = "block";
+                mainBtn.innerText = "Hesab Yarat";
+                toggleText.innerHTML = 'Artıq hesabınız var? <span onclick="toggleMode()">Daxil olun</span>';
+            }
+        }
+    </script>
+
+</body>
+</html>
